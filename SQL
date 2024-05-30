@@ -1,0 +1,481 @@
+
+SQL*Plus: Release 11.2.0.2.0 Production on Thu May 30 14:07:04 2024
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect microtesting1/microtest
+Connected.
+SQL> drop table hasprimary ;
+drop table hasprimary
+           *
+ERROR at line 1:
+ORA-02449: unique/primary keys in table referenced by foreign keys
+
+
+SQL> drop tabl hasprimary cascade constraints ;
+drop tabl hasprimary cascade constraints
+     *
+ERROR at line 1:
+ORA-00950: invalid DROP option
+
+
+SQL> drop table hasprimary cascade constraints ;
+
+Table dropped.
+
+SQL> drop table dhobs cascade constraints ;
+drop table dhobs cascade constraints
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> drop table dhasobs casccade constraints ;
+drop table dhasobs casccade constraints
+                   *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> drop table dhasobs cascade constraints;
+
+Table dropped.
+
+SQL> -- Creating the health supporters table
+SQL> CREATE TABLE healthSupporters (
+  2      puserid VARCHAR(30),
+  3      hsuserid VARCHAR(30) NOT NULL,
+  4      since DATE NOT NULL,
+  5      PRIMARY KEY (puserid),
+  6      FOREIGN KEY (hsuserid) REFERENCES person(userid),
+  7      FOREIGN KEY (puserid) REFERENCES patient(userid) ON DELETE CASCADE
+  8  );
+
+Table created.
+
+SQL> -- Creating the observation tables
+SQL> CREATE TABLE observation (
+  2      diseaseid VARCHAR(30),
+  3      obsname VARCHAR(30),
+  4      obstype VARCHAR(30),
+  5      lowerlimit FLOAT,
+  6      upperlimit FLOAT,
+  7      freq INTEGER,
+  8      PRIMARY KEY (diseaseid, obsname, obstype),
+  9      FOREIGN KEY (diseaseid) REFERENCES disease(diseaseid) ON DELETE CASCADE,
+ 10      FOREIGN KEY (obsname, obstype) REFERENCES measure(obsname, obstype) ON DELETE CASCADE
+ 11  );
+
+Table created.
+
+SQL> --data for person
+SQL>  -- Insert record 1 into the person table
+SQL>  INSERT INTO person (userid, fname, lname, dob, gender, address, phone, password) VALUES ('user01', 'John', 'Doe', TO_DATE('1990-01-01', 'YYYY-MM-DD'), 'M', '123 Elm St', '1234567890', 'pwd12345');
+
+1 row created.
+
+SQL>
+SQL>  -- Insert record 2 into the person table
+SQL>  INSERT INTO person (userid, fname, lname, dob, gender, address, phone, password) VALUES ('user02', 'Jane', 'Smith', TO_DATE('1992-02-02', 'YYYY-MM-DD'), 'F', '456 Oak St', '2345678901', 'pwd23456');
+
+1 row created.
+
+SQL>
+SQL>  -- Insert record 3 into the person table
+SQL>  INSERT INTO person (userid, fname, lname, dob, gender, address, phone, password) VALUES ('user03', 'Jim', 'Beam', TO_DATE('1993-03-03', 'YYYY-MM-DD'), 'M', '789 Pine St', '3456789012', 'pwd34567');
+
+1 row created.
+
+SQL>
+SQL>  -- Insert record 4 into the person table
+SQL>  INSERT INTO person (userid, fname, lname, dob, gender, address, phone, password) VALUES ('user04', 'Jill', 'Valley', TO_DATE('1994-04-04', 'YYYY-MM-DD'), 'F', '321 Maple St', '4567890123', 'pwd45678');
+
+1 row created.
+
+SQL>
+SQL>  -- Insert record 5 into the person table
+SQL>  INSERT INTO person (userid, fname, lname, dob, gender, address, phone, password) VALUES ('user05', 'Jake', 'Long', TO_DATE('1991-05-05', 'YYYY-MM-DD'), 'M', '654 Willow St', '5678901234', 'pwd56789');
+
+1 row created.
+
+SQL>
+SQL>  -- Insert record 6 into the person table
+SQL>  INSERT INTO person (userid, fname, lname, dob, gender, address, phone, password) VALUES ('user06', 'Julia', 'Roberts', TO_DATE('1995-06-06', 'YYYY-MM-DD'), 'F', '987 Cedar St', '6789012345', 'pwd67890');
+
+1 row created.
+
+SQL>
+SQL>  -- Insert record 7 into the person table
+SQL>  INSERT INTO person (userid, fname, lname, dob, gender, address, phone, password) VALUES ('user07', 'Jason', 'Mraz', TO_DATE('1996-07-07', 'YYYY-MM-DD'), 'M', '159 Oak St', '7890123456', 'pwd78901');
+
+1 row created.
+
+SQL>
+SQL>  -- Insert record 8 into the person table
+SQL>  INSERT INTO person (userid, fname, lname, dob, gender, address, phone, password) VALUES ('user08', 'Jessica', 'Alba', TO_DATE('1997-08-08', 'YYYY-MM-DD'), 'F', '753 Spruce St', '8901234567', 'pwd89012');
+
+1 row created.
+
+SQL>
+SQL>  -- Insert record 9 into the person table
+SQL>  INSERT INTO person (userid, fname, lname, dob, gender, address, phone, password) VALUES ('user09', 'Jeremy', 'Clarkson', TO_DATE('1998-09-09', 'YYYY-MM-DD'), 'M', '951 Birch St', '9012345678', 'pwd90123');
+
+1 row created.
+
+SQL>
+SQL>  -- Insert record 10 into the person table
+SQL>  INSERT INTO person (userid, fname, lname, dob, gender, address, phone, password) VALUES ('user10', 'Jessica', 'Biel', TO_DATE('1999-10-10', 'YYYY-MM-DD'), 'F', '852 Elm St', '0123456789', 'pwd01234');
+
+1 row created.
+
+SQL>
+SQL>
+SQL> -- data for patient
+SQL>
+SQL> -- Insert records into the patient table
+SQL> INSERT INTO patient (userid) VALUES ('user01');
+
+1 row created.
+
+SQL> INSERT INTO patient (userid) VALUES ('user02');
+
+1 row created.
+
+SQL> INSERT INTO patient (userid) VALUES ('user03');
+
+1 row created.
+
+SQL> INSERT INTO patient (userid) VALUES ('user04');
+
+1 row created.
+
+SQL> INSERT INTO patient (userid) VALUES ('user05');
+
+1 row created.
+
+SQL> INSERT INTO patient (userid) VALUES ('user06');
+
+1 row created.
+
+SQL> INSERT INTO patient (userid) VALUES ('user07');
+
+1 row created.
+
+SQL> INSERT INTO patient (userid) VALUES ('user08');
+
+1 row created.
+
+SQL> INSERT INTO patient (userid) VALUES ('user09');
+
+1 row created.
+
+SQL> INSERT INTO patient (userid) VALUES ('user10');
+
+1 row created.
+
+SQL>
+SQL> -- data for healthSupporters
+SQL> -- Insert records into the healthSupporters table
+SQL> INSERT INTO healthSupporters (puserid, hsuserid, since) VALUES ('user01', 'user02', TO_DATE('2021-01-01', 'YYYY-MM-DD'));
+
+1 row created.
+
+SQL> INSERT INTO healthSupporters (puserid, hsuserid, since) VALUES ('user02', 'user03', TO_DATE('2021-02-01', 'YYYY-MM-DD'));
+
+1 row created.
+
+SQL> INSERT INTO healthSupporters (puserid, hsuserid, since) VALUES ('user03', 'user04', TO_DATE('2021-03-01', 'YYYY-MM-DD'));
+
+1 row created.
+
+SQL> INSERT INTO healthSupporters (puserid, hsuserid, since) VALUES ('user04', 'user05', TO_DATE('2021-04-01', 'YYYY-MM-DD'));
+
+1 row created.
+
+SQL> INSERT INTO healthSupporters (puserid, hsuserid, since) VALUES ('user05', 'user06', TO_DATE('2021-05-01', 'YYYY-MM-DD'));
+
+1 row created.
+
+SQL> INSERT INTO healthSupporters (puserid, hsuserid, since) VALUES ('user06', 'user07', TO_DATE('2021-06-01', 'YYYY-MM-DD'));
+
+1 row created.
+
+SQL> INSERT INTO healthSupporters (puserid, hsuserid, since) VALUES ('user07', 'user08', TO_DATE('2021-07-01', 'YYYY-MM-DD'));
+
+1 row created.
+
+SQL> INSERT INTO healthSupporters (puserid, hsuserid, since) VALUES ('user08', 'user09', TO_DATE('2021-08-01', 'YYYY-MM-DD'));
+
+1 row created.
+
+SQL> INSERT INTO healthSupporters (puserid, hsuserid, since) VALUES ('user09', 'user10', TO_DATE('2021-09-01', 'YYYY-MM-DD'));
+
+1 row created.
+
+SQL> INSERT INTO healthSupporters (puserid, hsuserid, since) VALUES ('user10', 'user01', TO_DATE('2021-10-01', 'YYYY-MM-DD'));
+
+1 row created.
+
+SQL>
+SQL>
+SQL> --data for disease table
+SQL> -- Insert records into the disease table
+SQL> INSERT INTO disease (diseaseid, name) VALUES ('D001', 'Diabetes');
+
+1 row created.
+
+SQL> INSERT INTO disease (diseaseid, name) VALUES ('D002', 'Hypertension');
+
+1 row created.
+
+SQL> INSERT INTO disease (diseaseid, name) VALUES ('D003', 'Asthma');
+
+1 row created.
+
+SQL> INSERT INTO disease (diseaseid, name) VALUES ('D004', 'Depression');
+
+1 row created.
+
+SQL> INSERT INTO disease (diseaseid, name) VALUES ('D005', 'Arthritis');
+
+1 row created.
+
+SQL> INSERT INTO disease (diseaseid, name) VALUES ('D006', 'Heart Disease');
+
+1 row created.
+
+SQL> INSERT INTO disease (diseaseid, name) VALUES ('D007', 'Thyroid Disorder');
+
+1 row created.
+
+SQL> INSERT INTO disease (diseaseid, name) VALUES ('D008', 'Anxiety Disorder');
+
+1 row created.
+
+SQL> INSERT INTO disease (diseaseid, name) VALUES ('D009', 'COPD');
+
+1 row created.
+
+SQL> INSERT INTO disease (diseaseid, name) VALUES ('D010', 'Migraine');
+
+1 row created.
+
+SQL>
+SQL>
+SQL> --data for diagnosis table
+SQL> -- Insert records into the diagnosis table with TO_DATE for date fields
+SQL> INSERT INTO diagnosis (patientid, diseaseid, since, enddate) VALUES ('user01', 'D001', TO_DATE('2022-01-10', 'YYYY-MM-DD'), NULL);
+
+1 row created.
+
+SQL> INSERT INTO diagnosis (patientid, diseaseid, since, enddate) VALUES ('user02', 'D002', TO_DATE('2022-02-15', 'YYYY-MM-DD'), NULL);
+
+1 row created.
+
+SQL> INSERT INTO diagnosis (patientid, diseaseid, since, enddate) VALUES ('user03', 'D003', TO_DATE('2022-03-20', 'YYYY-MM-DD'), NULL);
+
+1 row created.
+
+SQL> INSERT INTO diagnosis (patientid, diseaseid, since, enddate) VALUES ('user04', 'D004', TO_DATE('2022-04-25', 'YYYY-MM-DD'), NULL);
+
+1 row created.
+
+SQL> INSERT INTO diagnosis (patientid, diseaseid, since, enddate) VALUES ('user05', 'D005', TO_DATE('2022-05-30', 'YYYY-MM-DD'), NULL);
+
+1 row created.
+
+SQL> INSERT INTO diagnosis (patientid, diseaseid, since, enddate) VALUES ('user06', 'D006', TO_DATE('2022-06-04', 'YYYY-MM-DD'), NULL);
+
+1 row created.
+
+SQL> INSERT INTO diagnosis (patientid, diseaseid, since, enddate) VALUES ('user07', 'D007', TO_DATE('2022-07-09', 'YYYY-MM-DD'), NULL);
+
+1 row created.
+
+SQL> INSERT INTO diagnosis (patientid, diseaseid, since, enddate) VALUES ('user08', 'D008', TO_DATE('2022-08-14', 'YYYY-MM-DD'), NULL);
+
+1 row created.
+
+SQL>
+SQL>
+SQL> --measure table
+SQL> -- Insert records into the measure table
+SQL> INSERT INTO measure (obsname, obstype) VALUES ('Blood Pressure', 'Numeric');
+
+1 row created.
+
+SQL> INSERT INTO measure (obsname, obstype) VALUES ('Heart Rate', 'Numeric');
+
+1 row created.
+
+SQL> INSERT INTO measure (obsname, obstype) VALUES ('Glucose Level', 'Numeric');
+
+1 row created.
+
+SQL> INSERT INTO measure (obsname, obstype) VALUES ('Cholesterol', 'Numeric');
+
+1 row created.
+
+SQL> INSERT INTO measure (obsname, obstype) VALUES ('Body Temperature', 'Numeric');
+
+1 row created.
+
+SQL> INSERT INTO measure (obsname, obstype) VALUES ('Respiratory Rate', 'Numeric');
+
+1 row created.
+
+SQL> INSERT INTO measure (obsname, obstype) VALUES ('Oxygen Saturation', 'Numeric');
+
+1 row created.
+
+SQL> INSERT INTO measure (obsname, obstype) VALUES ('BMI', 'Numeric');
+
+1 row created.
+
+SQL> INSERT INTO measure (obsname, obstype) VALUES ('Pain Level', 'Scale');
+
+1 row created.
+
+SQL> INSERT INTO measure (obsname, obstype) VALUES ('Mood', 'Text');
+
+1 row created.
+
+SQL>
+SQL>
+SQL> -- observation
+SQL> -- Insert records into the observation table
+SQL> INSERT INTO observation (diseaseid, obsname, obstype, lowerlimit, upperlimit, freq) VALUES ('D001', 'Blood Pressure', 'Numeric', 80, 120, 30);
+
+1 row created.
+
+SQL> INSERT INTO observation (diseaseid, obsname, obstype, lowerlimit, upperlimit, freq) VALUES ('D002', 'Heart Rate', 'Numeric', 60, 100, 60);
+
+1 row created.
+
+SQL> INSERT INTO observation (diseaseid, obsname, obstype, lowerlimit, upperlimit, freq) VALUES ('D003', 'Glucose Level', 'Numeric', 70, 130, 90);
+
+1 row created.
+
+SQL> INSERT INTO observation (diseaseid, obsname, obstype, lowerlimit, upperlimit, freq) VALUES ('D004', 'Cholesterol', 'Numeric', 100, 200, 120);
+
+1 row created.
+
+SQL> INSERT INTO observation (diseaseid, obsname, obstype, lowerlimit, upperlimit, freq) VALUES ('D005', 'Body Temperature', 'Numeric', 97, 99, 180);
+
+1 row created.
+
+SQL> INSERT INTO observation (diseaseid, obsname, obstype, lowerlimit, upperlimit, freq) VALUES ('D006', 'Respiratory Rate', 'Numeric', 12, 16, 240);
+
+1 row created.
+
+SQL> INSERT INTO observation (diseaseid, obsname, obstype, lowerlimit, upperlimit, freq) VALUES ('D007', 'Oxygen Saturation', 'Numeric', 95, 100, 300);
+
+1 row created.
+
+SQL> INSERT INTO observation (diseaseid, obsname, obstype, lowerlimit, upperlimit, freq) VALUES ('D008', 'BMI', 'Numeric', 18.5, 24.9, 365);
+
+1 row created.
+
+SQL> INSERT INTO observation (diseaseid, obsname, obstype, lowerlimit, upperlimit, freq) VALUES ('D009', 'Pain Level', 'Scale', 1, 10, 30);
+
+1 row created.
+
+SQL> INSERT INTO observation (diseaseid, obsname, obstype, lowerlimit, upperlimit, freq) VALUES ('D010', 'Mood', 'Text', NULL, NULL, 7);
+
+1 row created.
+
+SQL>
+SQL>
+SQL>
+SQL> -- Insert records into the record table
+SQL> INSERT INTO record (patientid, obsname, obstype, obsdate, obsvalue, recdate) VALUES ('user01', 'Blood Pressure', 'Numeric', CURRENT_TIMESTAMP, 110, CURRENT_TIMESTAMP);
+
+1 row created.
+
+SQL> INSERT INTO record (patientid, obsname, obstype, obsdate, obsvalue, recdate) VALUES ('user02', 'Heart Rate', 'Numeric', CURRENT_TIMESTAMP, 75, CURRENT_TIMESTAMP);
+
+1 row created.
+
+SQL> INSERT INTO record (patientid, obsname, obstype, obsdate, obsvalue, recdate) VALUES ('user03', 'Glucose Level', 'Numeric', CURRENT_TIMESTAMP, 90, CURRENT_TIMESTAMP);
+
+1 row created.
+
+SQL> INSERT INTO record (patientid, obsname, obstype, obsdate, obsvalue, recdate) VALUES ('user04', 'Cholesterol', 'Numeric', CURRENT_TIMESTAMP, 150, CURRENT_TIMESTAMP);
+
+1 row created.
+
+SQL> INSERT INTO record (patientid, obsname, obstype, obsdate, obsvalue, recdate) VALUES ('user05', 'Body Temperature', 'Numeric', CURRENT_TIMESTAMP, 98.6, CURRENT_TIMESTAMP);
+
+1 row created.
+
+SQL> INSERT INTO record (patientid, obsname, obstype, obsdate, obsvalue, recdate) VALUES ('user06', 'Respiratory Rate', 'Numeric', CURRENT_TIMESTAMP, 14, CURRENT_TIMESTAMP);
+
+1 row created.
+
+SQL> INSERT INTO record (patientid, obsname, obstype, obsdate, obsvalue, recdate) VALUES ('user07', 'Oxygen Saturation', 'Numeric', CURRENT_TIMESTAMP, 98, CURRENT_TIMESTAMP);
+
+1 row created.
+
+SQL> INSERT INTO record (patientid, obsname, obstype, obsdate, obsvalue, recdate) VALUES ('user08', 'BMI', 'Numeric', CURRENT_TIMESTAMP, 22, CURRENT_TIMESTAMP);
+
+1 row created.
+
+SQL> INSERT INTO record (patientid, obsname, obstype, obsdate, obsvalue, recdate) VALUES ('user09', 'Pain Level', 'Scale', CURRENT_TIMESTAMP, 5, CURRENT_TIMESTAMP);
+
+1 row created.
+
+SQL> INSERT INTO record (patientid, obsname, obstype, obsdate, obsvalue, recdate) VALUES ('user10', 'Mood', 'Text', CURRENT_TIMESTAMP, 'Good', CURRENT_TIMESTAMP);
+INSERT INTO record (patientid, obsname, obstype, obsdate, obsvalue, recdate) VALUES ('user10', 'Mood', 'Text', CURRENT_TIMESTAMP, 'Good', CURRENT_TIMESTAMP)
+                                                                                                                                  *
+ERROR at line 1:
+ORA-01722: invalid number
+
+
+SQL> INSERT INTO record (patientid, obsname, obstype, obsdate, obsvalue, recdate) VALUES ('user10', 'Mood', 'Text', CURRENT_TIMESTAMP, 33 , CURRENT_TIMESTAMP);
+
+1 row created.
+
+SQL>
+SQL>
+SQL> -- Insert records into the activealerts table
+SQL> INSERT INTO activealerts (patientid, alerttype, generatedate, message) VALUES ('user01', 'Urgent', TO_DATE('2023-05-01', 'YYYY-MM-DD'), 'Immediate attention needed');
+
+1 row created.
+
+SQL> INSERT INTO activealerts (patientid, alerttype, generatedate, message) VALUES ('user02', 'Reminder', TO_DATE('2023-05-02', 'YYYY-MM-DD'), 'Time for your medication');
+
+1 row created.
+
+SQL> INSERT INTO activealerts (patientid, alerttype, generatedate, message) VALUES ('user03', 'Warning', TO_DATE('2023-05-03', 'YYYY-MM-DD'), 'Check blood pressure');
+
+1 row created.
+
+SQL> INSERT INTO activealerts (patientid, alerttype, generatedate, message) VALUES ('user04', 'Info', TO_DATE('2023-05-04', 'YYYY-MM-DD'), 'New health tips available');
+
+1 row created.
+
+SQL> INSERT INTO activealerts (patientid, alerttype, generatedate, message) VALUES ('user05', 'Urgent', TO_DATE('2023-05-05', 'YYYY-MM-DD'), 'Consult your doctor immediately');
+
+1 row created.
+
+SQL> INSERT INTO activealerts (patientid, alerttype, generatedate, message) VALUES ('user06', 'Reminder', TO_DATE('2023-05-06', 'YYYY-MM-DD'), 'Appointment tomorrow');
+
+1 row created.
+
+SQL> INSERT INTO activealerts (patientid, alerttype, generatedate, message) VALUES ('user07', 'Warning', TO_DATE('2023-05-07', 'YYYY-MM-DD'), 'Low activity detected');
+
+1 row created.
+
+SQL> INSERT INTO activealerts (patientid, alerttype, generatedate, message) VALUES ('user08', 'Info', TO_DATE('2023-05-08', 'YYYY-MM-DD'), 'Healthcare plan updated');
+
+1 row created.
+
+SQL> INSERT INTO activealerts (patientid, alerttype, generatedate, message) VALUES ('user09', 'Urgent', TO_DATE('2023-05-09', 'YYYY-MM-DD'), 'Abnormal test result observed');
+
+1 row created.
+
+SQL> INSERT INTO activealerts (patientid, alerttype, generatedate, message) VALUES ('user10', 'Reminder', TO_DATE('2023-05-10', 'YYYY-MM-DD'), 'Time to check your glucose');
+
+1 row created.
+
+SQL>
